@@ -39,7 +39,7 @@
             // numericUpDown1
             // 
             numericUpDown1.Increment = new decimal(new int[] { 2, 0, 0, 0 });
-            numericUpDown1.Location = new Point(703, 32);
+            numericUpDown1.Location = new Point(85, 62);
             numericUpDown1.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             numericUpDown1.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
             numericUpDown1.Name = "numericUpDown1";
@@ -49,11 +49,11 @@
             // 
             // button1
             // 
-            button1.Location = new Point(719, 78);
+            button1.Location = new Point(102, 91);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 1;
-            button1.Text = "button1";
+            button1.Text = "Hrát";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -65,18 +65,17 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(177, 128);
+            label1.Location = new Point(68, 44);
             label1.Name = "label1";
-            label1.Size = new Size(38, 15);
+            label1.Size = new Size(167, 15);
             label1.TabIndex = 2;
-            label1.Text = "label1";
-            label1.Visible = false;
+            label1.Text = "Zadejte velikost matice pexesa";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(866, 450);
+            ClientSize = new Size(866, 416);
             Controls.Add(label1);
             Controls.Add(button1);
             Controls.Add(numericUpDown1);

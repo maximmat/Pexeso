@@ -5,7 +5,7 @@ namespace pexeso
     public partial class Form1 : Form
     {
         private TableLayoutPanel herniPlocha;
-        private List<Karticka> vybraneKarticky = new List<Karticka>();
+        private List<Karticka> vybraneKarticky = new List<Karticka>(); //list pro kartièky, tlaèítka
 
         public Form1()
         {
@@ -26,6 +26,7 @@ namespace pexeso
 
         private void GenerujTlacitka(int velikost)
         {
+            //schování tlaèítek pro nastavování pøi høe
             button1.Visible = false;
             numericUpDown1.Visible = false;
             label1.Visible = false;
@@ -37,6 +38,7 @@ namespace pexeso
             /*
              * Enumerable.Range - vytvoøení seznamu od 1 do polovinu celkového poètu kartièek
              * SelectMany - vytvoøí ke každému prvku stejnou dvojci 
+             * Nakonec všechny cisla do listu
              */
 
             Random rand = new Random();
@@ -54,7 +56,7 @@ namespace pexeso
                 {
                     var actKarticka = new Karticka(cisla[index++]); //vytvoøení tlaèítka a pøiøazení hodnoty z listu 
                     actKarticka.Click += kartickaVybrana; //umožnìní kliknutí na vygenerovanou kartièku, pøi kliknutí volá kartickaVybrana
-                    herniPlocha.Controls.Add(actKarticka, r, s);
+                    herniPlocha.Controls.Add(actKarticka, r, s); //vykreselní kartièky a umístìní podle aktuálního øádku a sloupce
                 }
             }
 
@@ -63,18 +65,19 @@ namespace pexeso
         private void kartickaVybrana(object sender, EventArgs e)
         {
 
-            if (!(sender is Karticka karticka) || karticka.shoda || vybraneKarticky.Count >= 2) return;
+            if (!(sender is Karticka karticka) || vybraneKarticky.Count >= 2) return; //kontrola zda sender je kartièka jiná než již otoèená, kontrola zda není vybráno víc než dvì kartièky
 
             if (vybraneKarticky.Contains(karticka)) return; //zamezení kliknutí na stejné tlaèítko dvakrát
 
-            karticka.Otocit();
-            vybraneKarticky.Add(karticka);
+            karticka.Otocit(); //otoèení kartièky øešené v class kartièka
+            vybraneKarticky.Add(karticka); //pøidání vybrané kartièky do listu
 
             if (vybraneKarticky.Count == 2)
             {
-                if (vybraneKarticky[0].actHodnota == vybraneKarticky[1].actHodnota)
+                if (vybraneKarticky[0].actHodnota == vybraneKarticky[1].actHodnota) //kontrola shody otoèených kartièek
                 {
-                    vybraneKarticky.ForEach(k =>
+                    //otoèení všech kartièek v listu a nasetování shody
+                    vybraneKarticky.ForEach(k => 
                     {
                         k.shoda = true;
                         timer1.Tick += (s, ev) =>
@@ -90,7 +93,8 @@ namespace pexeso
                 }
                 else
                 {
-                    timer1.Tick += (s, ev) =>
+                    //otoèení kaartièek
+                    timer1.Tick += (s, ev) => //timer1 pøidání funkce co pøi tick
                     {
                         vybraneKarticky.ForEach(k => k.Otocit());
                         vybraneKarticky.Clear();
@@ -100,31 +104,32 @@ namespace pexeso
                 }
             }
 
-            if (herniPlocha.Controls.OfType<Karticka>().All(k => k.shoda))
+            if (herniPlocha.Controls.OfType<Karticka>().All(k => k.shoda)) //kontrola zda nemají již všechny kartièky nasetovanou promìnou shoda
             {
                 konecHry();
             }
         }
 
         private void konecHry()
+        //vyèištìní herní plochy, listu a zobrazení ovládacích prvkù pro novou hru
         {
             herniPlocha.Controls.Clear();
             vybraneKarticky.Clear();
             
-
-            label1.Visible = true;
             numericUpDown1.Visible = true;
             button1.Visible = true;
-            label1.Text = "GG Alkane";
+            label1.Visible = true;
+            MessageBox.Show("GG Alkane");
+
 
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //tlaèítko pro generování herního pole
         {
-            herniPlocha.ResumeLayout();
+            herniPlocha.ResumeLayout(); //mùže být aktivní SuspendLayout z minulé hry
             GenerujTlacitka((int)numericUpDown1.Value);
-            herniPlocha.SuspendLayout();
+            herniPlocha.SuspendLayout(); //ošetøení, aby se neposouvalo rozložení kartièek, když je nìjaký prázdný øádek, zpùsobovalo zmatení pøi hraní
         }
 
         private void timer1_Tick(object sender, EventArgs e)

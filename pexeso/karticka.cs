@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace pexeso
 {
-    internal class Karticka : Button
+    internal class Karticka : Button //třída kartička s dědičností z button
     {
-        public int actHodnota { get; private set; }
-        public bool shoda { get; set; }
+        public int actHodnota { get; private set; } //získání hodnoty actHodnota a nastavení pro zápis jen v této třídě
+        public bool shoda { get; set; } //načtení proměné shoda s možností zápisu
 
         public Karticka(int hodnota)
+        //nastavení vygenreovaného čísla pro novou kartičku a prázdný text na kartičcce
         {
             actHodnota = hodnota;
             Text = "";
@@ -20,17 +21,17 @@ namespace pexeso
 
         public void Otocit()
         {
-            if (shoda == true)
+            if (shoda == true) //pokud je shoda kartičku skryjeme 
             {
                 this.Visible = false;
             }
             else
             {
-                if (Text == "")
+                if (Text == "") //pokud je kartička otočená, tj text není tak na ni vykreslíme její hodnotu
                 {
                     Text = actHodnota.ToString();
                 }
-                else
+                else //jinak je požadavek na otočení kartičky zpět, takže text tlačítka nastavíme na nic
                 {
                     Text = "";
                 }
